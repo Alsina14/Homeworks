@@ -40,7 +40,7 @@ class Galaxy(CelestialObject):
         super().__init__(**kwargs)
         self.distance = dist
         self.apparent_mag = mag
-        dist = dist/1000
+        dist = dist*1e+6
         self.abs_mag = mag + 5 - 5*math.log10(dist)
         
         

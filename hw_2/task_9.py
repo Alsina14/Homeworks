@@ -12,16 +12,20 @@ class Triangle(Point):
         self.point_1 = a
         self.point_2 = b
         self.point_3 = c
-        self.area = 0.5 * abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y))
+        self.area = self.get_area()
         self.perimeter = ((a.x - b.x)**2 + (a.y - b.y)**2)**0.5 + ((c.x - b.x)**2 + (c.y - b.y)**2)**0.5 + ((a.x - c.x)**2 + (a.y - c.y)**2)**0.5 
         
     def is_inside(self, p):
         """accepts a point and returns True if the point lies inside the triangle and False otherwise"""
-        s1 = 0.5 * abs(p.x * (self.point_2.y - self.point_3.y) + self.point_2.x * (self.point_3.y - p.y) + self.point_3.x * (p.y - self.point_2.y))
-        s2 = 0.5 * abs(p.x * (self.point_1.y - self.point_3.y) + self.point_1.x * (self.point_3.y - p.y) + self.point_3.x * (p.y - self.point_1.y))
-        s3 = 0.5 * abs(p.x * (self.point_2.y - self.point_1.y) + self.point_2.x * (self.point_1.y - p.y) + self.point_1.x * (p.y - self.point_2.y))
+        s1 = Triangle(a, b, p).area
+        s2 = Triangle(a, p, c).area
+        s3 = Triangle(p, b, c).area
         return self.area == s1 + s2 + s3
     
+    def get_area(self):
+        return 0.5 * abs(self.point_1.x * (self.point_2.y - self.point_3.y) +
+                         self.point_2.x * (self.point_3.y - self.point_1.y) + 
+                         self.point_3.x * (self.point_1.y - self.point_2.y))
 
 class ColouredTriangle(Triangle):
     def __init__(self, colour, *args):
